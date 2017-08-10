@@ -1,31 +1,21 @@
 
-
-class Cell{
-
-	constructor(cellName, cellXpos, cellYpos){
-		this.cellName = cellName;
-		this.cellXpos = cellXpos;
-		this.cellYpos = cellYpos;
-		this.cellStatus = "empty";
-	}
-
 								//освобождение ячейки
-	setCellEmpty(cellName) {
+	exports.setCellEmpty = function (cellName) {
 		this.cellStatus = "empty";
 	}
 
 								//занятие ячейки
-	unsetCellEmpty(cellName) {
+	exports.unsetCellEmpty = function (cellName) {
 		this.cellStatus = "notEmpty";
 	}
 
 								//проверка статуса ячейки
-	function getCellStatus(cellName) {
+	exports.getCellStatus = function (cellName) {
 		return this.cellStatus;
 	}
 
 								//параметры карты на ячейке
-	function getCardInfo(cellName) {
+	exports.getCardInfo = function (cellName) {
 		if(this.getCellStatus(cellName) == "notEmpty"){
 			//выбрать карту по currCell и возвратить ее объект
 			return card;
@@ -34,5 +24,3 @@ class Cell{
 			return false;
 		}
 	}
-
-}

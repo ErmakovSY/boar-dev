@@ -6,37 +6,39 @@ var adminController = require('./../app/controllers/adminController');
 
 router.get('/admin', function(req, res) {
     var db = req.db;
-    adminController.selectAllCards(function(e,docs){
-        res.json(docs);
-    });
-});
-
-router.get('/admin/create-card', function(req, res) {
-    var db = req.db;
-    adminController.addCard(function(e,docs){
+    adminController.getAllCards(function(e,docs){
         res.json(docs);
     });
 });
 
 router.get('/admin/show-card', function(req, res) {
     var db = req.db;
-    adminController.showCard(function(e,docs){
+    adminController.getCard(function(e,docs){
         res.json(docs);
     });
 });
-
-router.get('/admin/update-card', function(req, res) {
+//post
+router.get('/admin/create-card', function(req, res) {
     var db = req.db;
-    adminController.showCard(function(e,docs){
+    adminController.createCard(function(e,docs){
         res.json(docs);
     });
 });
-
+//delete
 router.get('/admin/delete-card', function(req, res) {
     var db = req.db;
     adminController.deleteCard(function(e,docs){
         res.json(docs);
     });
 });
+//put
+router.get('/admin/update-card', function(req, res) {
+    var db = req.db;
+    adminController.updateCard(function(e,docs){
+        res.json(docs);
+    });
+});
+
+
 
 module.exports = router;

@@ -39,8 +39,10 @@ app.use(function(req,res,next){
 });
 
 app.use('/', index);
-//app.use('/admin/add', index);
-//app.use('/cards', cards);
-
+app.use('/admin/', index);
+app.use('/admin/show-card', index);
+app.use('/admin/create-card', index);
+app.use('/admin/delete-card', index);
+//app.use('/admin/', index);
 
 module.exports = app;

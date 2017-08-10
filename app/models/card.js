@@ -1,77 +1,98 @@
+var db = require('../db');
+var Cell = require('./cell');
 
-
-class Card extends Cell{
-
-	constructor(cardName, desc, health, power, price, currHealth, currCell, currStatus){
-		this.cardName = cardName;
-		this.desc = desc;
-		this.health = health;
-		this.power = power;
-		this.price = price;
-		this.currHealth = currHealth;
-		this.currCell = currCell;
-		this.currStatus = currStatus;
+	
+								//получение всех карт из БД
+	exports.getAll = function (cb) {
+	    db.collection('cards').find().toArray(function (err, docs) {
+	    	cb(err, docs);
+	    });
+	}
+								//получение одной карты из БД
+	exports.getOne = function (card, cb) {
+	    db.collection('cards').find(card).toArray(function (err, docs) {
+	    	cb(err, docs);
+	    });
 	}
 								//создание карты в БД
 	exports.create = function (card, cb) {
-    	db.get().collection('cards').insert(card, function (err, result) {
+    	db.collection('cards').insert(card, function (err, result) {
     		cb(err, result);
     	});
 	}
+								//удаление карты из БД
+	exports.delete = function (card, cb) {
+	    //db.collection('cards').find(card).remove();
+	    db.collection('cards').remove(card, function (err, result) {
+    		cb(err, result);
+    	});
+	}
+								//изменеие карты в БД
+	exports.update = function (cardOld, cardNew, cb) {
+    	db.collection('cards').find(cardOld, function (err, cardNew) {
+    		cardNew.save(function (err, res) {
+	    		cb(err, docs);
+	    	});
+	    });
+	}
 
 
+
+
+
+
+//------------------------------------------------------------------//
 								//появление карты на поле
-	appair() {            
-		super.unsetCellEmpty(currCell);
+	exports.appair = function () {            
+		Cell.unsetCellEmpty(currCell);
 		this.currStatus = "live";	
 	}
 
 								//присваивание карте ячейки
-	setCell(currCell) {
+	exports.setCell = function (currCell) {
 		this.currCell = currCell;
 	}
 
 								//изменение ячейки картой
-	changeCell(currCell, newCell) {
+	exports.changeCell = function (currCell, newCell) {
 		this.currCell = newCell;
 	}
 
 								//движение карты
-	move(cardName, currCell, targetCell) {
+	exports.move = function (cardName, currCell, targetCell) {
 		
-		if(super.getCellStatus(targetCell) == "empty"){
-			super.setCellEmpty(currCell);
-			super.unsetCellEmpty(targetCell);
+		if(Cell.getCellStatus(targetCell) == "empty"){
+			Cell.setCellEmpty(currCell);
+			Cell.unsetCellEmpty(targetCell);
 			this.currCell = targetCell;
 		}
-		else if(super.getCellStatus(targetCell) == "notEmpty"){
+		else if(Cell.getCellStatus(targetCell) == "notEmpty"){
 			this.attack(currCell, targetCell);
 		}
 	}
 
 								//атака карты на карту
-	attack(currCell, targetCell) {
+	exports.attack = function (currCell, targetCell) {
 
-		var attackCard = super.getCardInfo(currCell);   //атакующая карта
-		var targetCard = super.getCardInfo(targetCell); //обороняющаяся карта
+		var attackCard = Cell.getCardInfo(currCell);   //атакующая карта
+		var targetCard = Cell.getCardInfo(targetCell); //обороняющаяся карта
 
 		attackCard.currHealth -= targetCard.power; //потеря здоровья атакующей картой
 		targetCard.CurrHealth -= attackCard.power; //потеря здоровья обороняющейся картой
 
 		if(attackCard.currHealth <= 0){ //если здоровье атакующей карты закончилось (атака отбита)
 			attackCard.death();
-			super.setCellEmpty(currCell);
+			Cell.setCellEmpty(currCell);
 		}
 
 		if(targetCard.currHealth <= 0){ //если здоровье обороняющейся карты закончилось (атака успешна)
 			targetCard.death();
-			super.setCellEmpty(currCell);
+			Cell.setCellEmpty(currCell);
 			attackCard.currCell = targetCell;
 		}
 	}
 
 								//исчезновение карты с поля
-	death() {
+	exports.death = function () {
 		this.currStatus = "death";
 	}
-}
