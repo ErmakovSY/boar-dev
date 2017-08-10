@@ -12,7 +12,14 @@ class Card extends Cell{
 		this.currCell = currCell;
 		this.currStatus = currStatus;
 	}
-	
+								//создание карты в БД
+	exports.create = function (card, cb) {
+    	db.get().collection('cards').insert(card, function (err, result) {
+    		cb(err, result);
+    	});
+	}
+
+
 								//появление карты на поле
 	appair() {            
 		super.unsetCellEmpty(currCell);
