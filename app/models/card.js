@@ -1,7 +1,10 @@
 var db = require('../db');
 var Cell = require('./cell');
+var ObjectID = require('mongodb').ObjectID;
 
 	
+	//------------------admin-panel operations------------------//
+
 								//получение всех карт из БД
 	exports.getAll = function (cb) {
 	    db.collection('cards').find().toArray(function (err, docs) {
@@ -10,7 +13,7 @@ var Cell = require('./cell');
 	}
 								//получение одной карты из БД
 	exports.getOne = function (card, cb) {
-	    db.collection('cards').find(card).toArray(function (err, docs) {
+		db.collection('cards').findOne({ _id: ObjectID(card) }, function (err, docs) {
 	    	cb(err, docs);
 	    });
 	}
@@ -22,26 +25,36 @@ var Cell = require('./cell');
 	}
 								//удаление карты из БД
 	exports.delete = function (card, cb) {
-	    //db.collection('cards').find(card).remove();
-	    db.collection('cards').remove(card, function (err, result) {
-    		cb(err, result);
-    	});
+	    this.getOne(card, function (err, res){
+	    	if(res){
+		    	db.collection('cards').remove(res, function(err, result) {
+	    			cb(err, result);
+	    		});
+	    	}
+	    	else{
+	    		cb(err, "No such card");
+	    	}
+		});
+	}
+								//удаление всех карт из БД
+	exports.deleteAll = function (cb) {
+		db.collection('cards').remove({}, function(err, result) {
+	    	cb(err, result);
+		});
 	}
 								//изменеие карты в БД
 	exports.update = function (cardOld, cardNew, cb) {
-    	db.collection('cards').find(cardOld, function (err, cardNew) {
-    		cardNew.save(function (err, res) {
-	    		cb(err, docs);
+		this.getOne(cardOld, function (err, res){
+    		db.collection('cards').update(res, cardNew, function (err, result) {
+	    		cb(err, result);
 	    	});
 	    });
 	}
 
+//----------------------------------------------------------//
 
+//------------------game-process operations-----------------//
 
-
-
-
-//------------------------------------------------------------------//
 								//появление карты на поле
 	exports.appair = function () {            
 		Cell.unsetCellEmpty(currCell);

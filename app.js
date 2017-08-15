@@ -13,9 +13,9 @@ var db = require('./app/db');
 var dburl = "mongodb://" + config.host + ":" + config.db.port + "/" + config.db.mongo;
 
 var index = require('./routes/index');
-//var users = require('./routes/users');
 
 var app = express();
+var validator = require('express-validator');
 
 // view engine setup
 app.set('views', './app/views');
@@ -26,9 +26,11 @@ app.set('view engine', 'pug');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
+// middleware
 //app.use(logger('dev'));
-//app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(validator());
 //app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 
@@ -39,10 +41,15 @@ app.use(function(req,res,next){
 });
 
 app.use('/', index);
-app.use('/admin/', index);
-app.use('/admin/show-card', index);
-app.use('/admin/create-card', index);
-app.use('/admin/delete-card', index);
-//app.use('/admin/', index);
+app.get('/admin/', index);
+app.get('/admin/show-card', index);
+app.delete('/admin/delete-card', index);
+app.delete('/admin/delete-all', index);
+//app.post('/admin/create-card', index);
+app.put('/admin/update-card', index);
+
+app.post('/admin/create-card', function(req,res,next){
+    next(index);
+});
 
 module.exports = app;
