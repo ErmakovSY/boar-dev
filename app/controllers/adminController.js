@@ -1,41 +1,24 @@
 var db = require('../db');
+var validator = require('node-validator');
 var Card = require('../models/card');
 
-// var validationSchema = {
-// 	'name': { 
-// 		notEmpty: true,
-// 		isLength: {
-// 	    	options: [{ min: 2, max: 20 }],
-// 	    	errorMessage: 'Must be between 2 and 20 chars long'  
-// 	    },
-// 	    errorMessage: 'Invalid Card Name'
-// 	},
-// 	'desc': { 
-// 		isLength: {
-// 	    	options: [{ max: 200 }],
-// 	    	errorMessage: 'Must be less then 200 chars long'  
-// 	    },
-// 	    errorMessage: 'Invalid Card Description'
-// 	},
-// 	'health': { 
-// 		notEmpty: true,
-// 		isInt: {
-// 	    	options: [{ min: 1, max: 50 }],
-// 	    	errorMessage: 'Must be between 1 and 50'  
-// 	    },
-// 	    errorMessage: 'Invalid Health Value'
-// 	},
-// 	'power': { 
-// 		notEmpty: true,
-// 		isInt: {
-// 	    	options: [{ min: 1, max: 50 }],
-// 	    	errorMessage: 'Must be between 1 and 50'  
-// 	    },
-// 	    errorMessage: 'Invalid Power Value'
-// 	},
-// //other properties aren't available to change by user
-// };
+exports.validateInput = function(card, cb) {
+	
+	var check = validator.isObject()
+		.withRequired('name', validator.isString({min: 1, max: 50}))
+		.withOptional('desc', validator.isString({min: 0, max: 200}))
+		.withOptional('health', validator.isInteger({min: 1, max: 20}))
+		.withOptional('power', validator.isInteger({min: 1, max: 20}))
+		.withOptional('price', validator.isInteger({min: 1, max: 100}))
+		.withRequired('currHealth', validator.isInteger({min: 1, max: 20}))
+		.withRequired('currCell', validator.isString({min: 0, max: 20}))
+		.withRequired('currStatus', validator.isString({min: 0, max: 20}));
 
+
+	validator.run(check, card, function(errorCount, errors) {
+		cb(errorCount, errors);
+	});
+}
 
 function getCardParams() {
 	//getting card properties from front-end
@@ -74,44 +57,52 @@ exports.deleteAll = function (cb) {
 exports.createCard = function (req, cb) {
     //var card = this.getCardParams();
     			var card = {
-    				name: "NEW_ddddddddddddddddddd25",
+    				name: "NEW",
 					desc: "NEW card",
-					health: 100,
+					health: 10,
 					power: 10,
 					price: 10,
 					currHealth: 10,
-					currcell: "none",
+					currCell: "none",
 					currStatus: "dead"
   				};
 
-    // req.checkBody(this.validationSchema, function(err, res){
-    // 	if(err){
-    // 		console.log("Validation failed!");
-    // 	}
-    // 	else{
-    // 		console.log("Validation succsess!");
-    // 	}
-    // });
-
-  	Card.create(card, function (err, docs) {
-	    cb(err, docs);
-    });
+  	this.validateInput(card, function(err, res){
+  		
+	    if(!err > 0) {
+		    Card.create(card, function (err, docs) {
+			    cb(err, docs);
+		    });
+		}
+		else{
+			cb(err, res);
+		}
+	});
 }
 
 exports.updateCard = function (cb) {
     //var card = this.getCardParams();
-    			var cardOld = "59929fb7564b5419e0cdedb4";
+    			var cardOld = "5992d61459314b1109ca220d";
   				var cardNew = {
     				name: "NEW_new_NEW",
     				desc: "NEW card",
-					health: 100,
-					power: 100,
-					price: 100,
-					currHealth: 10,
-					currcell: "none",
+					health: 5,
+					power: 5,
+					price: 5,
+					currHealth: 5,
+					currCell: "none",
 					currStatus: "dead"
   				};
-  	Card.update(cardOld, cardNew, function (err, docs) {
-	    cb(err, docs);
-    });
+
+  	this.validateInput(cardNew, function(err, res){
+  		
+	    if(!err > 0) {
+		    Card.update(cardOld, cardNew, function (err, docs) {
+			    cb(err, docs);
+		    });
+		}
+		else{
+			cb(err, res);
+		}
+	});
 }
