@@ -1,0 +1,29 @@
+main.main
+			p.main__title Cards in Database
+			div.main__container
+				div.main__list
+					each item in data
+						div.list__section
+							button.btn.btn__edit edit
+							button.btn.btn__delete delete
+							ul.list__item
+								li.list__value Name: #{item.name}
+								li.list__value Description: #{item.desc}
+								li.list__value Health: #{item.health}
+								li.list__value Power: #{item.power}
+								li.list__value Price: #{item.price}
+							input(class="item__hidden--id" type="hidden", name="value_id", value="#{item._id}")
+//- script
+//- 	$('document').ready(function() {
+//- 		alert('Hello');
+//- 		// $('.list__section').click(function() {
+//- 		// 	alert('Hello');
+//- 		// 	var id = $('.item__hidden--id').value();
+//- 		// 	$.ajax({ type: "POST",
+//- 		// 		url: '/show-card',  
+//- 		// 		data: { id: id },
+//- 		// 		dataType: "json",
+//- 		// 		success: success //call your func here  
+//- 		// 	});
+//- 		// });
+//- 	});

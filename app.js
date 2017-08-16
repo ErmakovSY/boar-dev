@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 // Database
 var mongoClient = require('mongodb').MongoClient;
 var mongoose = require('mongoose');
+var pug = require('pug');
 var config = require('./app/config');
 var db = require('./app/db');
 var dburl = "mongodb://" + config.host + ":" + config.db.port + "/" + config.db.mongo;
@@ -19,7 +20,7 @@ var validator = require('express-validator');
 
 // view engine setup
 app.set('views', './app/views');
-app.set('view engine', 'pug');
+app.set('view engine', 'jade');
 
 //app.listen(3000);
 
@@ -31,8 +32,8 @@ app.set('view engine', 'pug');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
-//app.use(cookieParser());
-//app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Make our db accessible to our router
 app.use(function(req,res,next){

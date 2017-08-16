@@ -7,9 +7,11 @@ var adminController = require('./../app/controllers/adminController');
 router.get('/admin', function(req, res) {
     var db = req.db;
     adminController.getAllCards(function(e, docs){
-        res.json(docs);
+        //res.json(docs);
+        res.render('index.jade', {data: docs});
     });
 });
+
 
 router.get('/admin/show-card', function(req, res) {
     var db = req.db;
