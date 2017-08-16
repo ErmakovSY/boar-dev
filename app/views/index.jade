@@ -3,6 +3,13 @@ html
 		include ../views/partials/_head
 	body
 		include ../views/partials/_header
-		include ../views/partials/_main
+		section.section
+			div.section__left
+				p.main__title Cards in Database
+				include ../views/partials/_main
+			div.section__right
+				p.main__title Choosed Card
+				div.section__right--show
+				div.section__right--edit
 		include ../views/partials/_footer
 		

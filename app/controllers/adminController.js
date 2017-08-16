@@ -30,12 +30,9 @@ exports.getAllCards = function (cb) {
     });
 }
 
-exports.getCard = function (cb) {
-    //var card = this.getCardParams();
-    		 	//var card = {
-    			//	"name": "strong"
-  				//};
-  				var card = "59929fb7564b5419e0cdedb4";
+exports.getCard = function (req, cb) {
+  		//var card = "59929fb7564b5419e0cdedb4";
+  	var card = req;
   	Card.getOne(card, function (err, docs) {
 	    cb(err, docs);
     });

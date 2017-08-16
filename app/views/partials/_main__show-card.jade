@@ -1,0 +1,13 @@
+main.main
+	div.main__container
+		div.main__list
+			div.list__section
+				ul.list__item
+					li.list__value Name: #{data.name}
+					li.list__value Description: #{data.desc}
+					li.list__value Health: #{data.health}
+					li.list__value Power: #{data.power}
+					li.list__value Price: #{data.price}
+				input(class="item__hidden--id" type="hidden", name="value_id", value="#{data._id}")
+				button.btn.btn__edit edit
+				button.btn.btn__delete delete

@@ -13,35 +13,36 @@ router.get('/admin', function(req, res) {
 });
 
 
-router.get('/admin/show-card', function(req, res) {
-    var db = req.db;
-    adminController.getCard(function(e,docs){
-        res.json(docs);
+router.post('/admin/show-card', function(req, res) {
+    													//console.log("params: " + req.params.id);
+    													//console.log("body: " + req.body.id);
+    adminController.getCard(req.body.id, function(e,docs){
+        res.render('./partials/_main__show-card.jade', {data: docs});
     });
 });
 //post
 router.get('/admin/create-card', function(req, res) {
-    var db = req.db;
+    //var db = req.db;
     adminController.createCard(req, function(e, docs){
         res.json(docs);
     });
 });
 //delete
 router.get('/admin/delete-card', function(req, res) {
-    var db = req.db;
+    //var db = req.db;
     adminController.deleteCard(function(e, docs){
         res.json(docs);
     });
 });
 router.get('/admin/delete-all', function(req, res) {
-    var db = req.db;
+    //var db = req.db;
     adminController.deleteAll(function(e, docs){
         res.json(docs);
     });
 });
 //put
 router.get('/admin/update-card', function(req, res) {
-    var db = req.db;
+    //var db = req.db;
     adminController.updateCard(function(e, docs){
         res.json(docs);
     });

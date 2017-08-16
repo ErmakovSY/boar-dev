@@ -31,6 +31,32 @@ body {
 	text-transform: uppercase;
 	color: brown;
 }
+.section {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: stretch;
+}
+.section__left {
+	width: 50%;
+	text-align: center;
+	padding: 30px;
+}
+.section__right {
+	width: 50%;
+	text-align: center;
+	padding: 30px;
+}
+.section__right--show {
+	height: 50%;
+}
+.section__right--show .main{
+	height: 100%;
+}
+.section__right--edit {
+	height: 50%;
+}
 .main {
 	height: calc(100% - 30vh);
 	width: 100%;
