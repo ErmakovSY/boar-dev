@@ -1,0 +1,17 @@
+main.main
+	div.main__container--edit
+		form(class="form__edit")
+			label(class='label__input' for='input-name') Card Name
+			input(type='text' class='input input__name' id='input-name' name="name" placeholder='Card Name')
+			label(class='label__input' for='input-desc') Description
+			input(type='text' class='input input__desc' id='input-desc' name="desc" placeholder='Card Description')
+			label(class='label__input' for='input-health') Health
+			input(type='text' class='input input__health' id='input-health' name="health" placeholder='Health')
+			label(class='label__input' for='input-power') Power
+			input(type='text' class='input input__power' id='input-power' name="power" placeholder='Power')
+			label(class='label__input' for='input-price') Price
+			input(type='text' class='input input__price' id='input-price' name="price" placeholder='Price')
+			input(class="input__action" type="hidden", name="action")
+			div.buttons-block
+				button.btn__edit--confirm ok
+				button.btn__edit--clear Clear

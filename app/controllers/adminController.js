@@ -16,6 +16,8 @@ exports.validateInput = function(card, cb) {
 
 
 	validator.run(check, card, function(errorCount, errors) {
+		console.log("controller@validator errors - " + errorCount);
+		console.log("vcontroller@validator errors list - " + errors);
 		cb(errorCount, errors);
 	});
 }
@@ -38,10 +40,11 @@ exports.getCard = function (req, cb) {
     });
 }
 
-exports.deleteCard = function (cb) {
-    //var card = this.getCardParams();
-    			var card = "59929fb7564b5419e0cdedb4";
+exports.deleteCard = function (req, cb) {
+    //var card = "59929fb7564b5419e0cdedb4";
+    var card = req;
   	Card.delete(card, function (err, docs) {
+  		console.log("controller: deleted");
 	    cb(err, docs);
     });
 }
@@ -52,22 +55,35 @@ exports.deleteAll = function (cb) {
 }
 
 exports.createCard = function (req, cb) {
-    //var card = this.getCardParams();
-    			var card = {
-    				name: "NEW",
-					desc: "NEW card",
-					health: 10,
-					power: 10,
-					price: 10,
-					currHealth: 10,
-					currCell: "none",
-					currStatus: "dead"
-  				};
+    			//var card = {
+    				//name: "NEW",
+					// desc: "NEW card",
+					// health: 10,
+					// power: 10,
+					// price: 10,
+					// currHealth: 10,
+					// currCell: "none",
+					// currStatus: "dead"
+  				//};
+  	var card = {
+		name: req.name,
+    	desc: req.desc,
+		health: parseInt(req.health),
+		power: parseInt(req.power),
+		price: parseInt(req.price),
+		currHealth: parseInt(req.health),
+		currCell: "none",
+		currStatus: "dead"
+	};
+	console.log("controller@create: required " + req.name + ", " + req.desc + ", " + req.health + ", " + req.power + ", " + req.price);
+	console.log("controller@create: required " + typeof(req.name) + ", " + typeof(req.desc) + ", " + typeof(parseInt(req.health)) + ", "
+	 + typeof(parseInt(req.power)) + ", " + typeof(parseInt(req.price)));
 
   	this.validateInput(card, function(err, res){
   		
 	    if(!err > 0) {
 		    Card.create(card, function (err, docs) {
+			    console.log("controller@create: err - " + err);
 			    cb(err, docs);
 		    });
 		}
@@ -77,24 +93,39 @@ exports.createCard = function (req, cb) {
 	});
 }
 
-exports.updateCard = function (cb) {
-    //var card = this.getCardParams();
-    			var cardOld = "5992d61459314b1109ca220d";
-  				var cardNew = {
-    				name: "NEW_new_NEW",
-    				desc: "NEW card",
-					health: 5,
-					power: 5,
-					price: 5,
-					currHealth: 5,
-					currCell: "none",
-					currStatus: "dead"
-  				};
+exports.updateCard = function (req, cb) {
+	    		//var cardOld = "5992d61459314b1109ca220d";
+	  			//var cardNew = {
+			    	//name: "NEW_new_NEW",
+			    	//desc: "NEW card",
+					// health: 5,
+					// power: 5,
+					// price: 5,
+					// currHealth: 5,
+					// currCell: "none",
+					// currStatus: "dead"
+  				//};
+  	var cardOld = req.id;
+  	var cardNew = {
+		name: req.name,
+    	desc: req.desc,
+		health: parseInt(req.health),
+		power: parseInt(req.power),
+		price: parseInt(req.price),
+		currHealth: parseInt(req.health),
+		currCell: "none",
+		currStatus: "dead"
+	};
 
+	console.log("controller@update: required " + req.name + ", " + req.desc + ", " + req.health + ", " + req.power + ", " + req.price);
+	console.log("controller@update: required " + typeof(req.name) + ", " + typeof(req.desc) + ", " + typeof(parseInt(req.health)) + ", "
+	 + typeof(parseInt(req.power)) + ", " + typeof(parseInt(req.price)));
+  	
   	this.validateInput(cardNew, function(err, res){
   		
 	    if(!err > 0) {
 		    Card.update(cardOld, cardNew, function (err, docs) {
+		    	console.log("controller@update: err - " + err);
 			    cb(err, docs);
 		    });
 		}

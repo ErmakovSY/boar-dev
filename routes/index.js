@@ -7,44 +7,50 @@ var adminController = require('./../app/controllers/adminController');
 router.get('/admin', function(req, res) {
     var db = req.db;
     adminController.getAllCards(function(e, docs){
-        //res.json(docs);
         res.render('index.jade', {data: docs});
     });
 });
 
-
 router.post('/admin/show-card', function(req, res) {
-    													//console.log("params: " + req.params.id);
-    													//console.log("body: " + req.body.id);
     adminController.getCard(req.body.id, function(e,docs){
         res.render('./partials/_main__show-card.jade', {data: docs});
     });
 });
+
 //post
-router.get('/admin/create-card', function(req, res) {
-    //var db = req.db;
-    adminController.createCard(req, function(e, docs){
-        res.json(docs);
+router.post('/admin/create-card', function(req, res) {
+    adminController.createCard(req.body, function(err, result){
+        adminController.getAllCards(function(e, docs){
+        	console.log("router: edited, rendering index.jade");
+        	res.render('index', {data: docs, message: "Succcessfully edited"});
+    	});
     });
 });
+
 //delete
-router.get('/admin/delete-card', function(req, res) {
-    //var db = req.db;
-    adminController.deleteCard(function(e, docs){
-        res.json(docs);
+router.post('/admin/delete-card', function(req, res) {
+    adminController.deleteCard(req.body.id, function(err, result){
+        adminController.getAllCards(function(e, docs){
+        	console.log("router: deleted, rendering index.jade");
+        	//console.log(docs);
+        	res.render('index', {data: docs, message: "Deleted"});//строка не отрабатывает
+    	});
     });
 });
+
 router.get('/admin/delete-all', function(req, res) {
-    //var db = req.db;
     adminController.deleteAll(function(e, docs){
         res.json(docs);
     });
 });
+
 //put
-router.get('/admin/update-card', function(req, res) {
-    //var db = req.db;
-    adminController.updateCard(function(e, docs){
-        res.json(docs);
+router.post('/admin/update-card', function(req, res) {
+    adminController.updateCard(req.body, function(err, result){
+        adminController.getAllCards(function(e, docs){
+        	console.log("router: edited, rendering index.jade");
+        	res.render('index', {data: docs, message: "Succcessfully edited"});
+    	});
     });
 });
 

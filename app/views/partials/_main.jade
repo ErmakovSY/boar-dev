@@ -1,13 +1,16 @@
 main.main
-	div.main__container
-		div.main__list
-			each item in data
-				div.list__section
-					ul.list__item
-						li.list__value Name: #{item.name}
-						li.list__value Description: #{item.desc}
-						li.list__value Health: #{item.health}
-						li.list__value Power: #{item.power}
-						li.list__value Price: #{item.price}
-					input(class="item__hidden--id" type="hidden", name="value_id", value="#{item._id}")
+	each item in data
+		div.list__section
+			ul.list__item
+				li.list__value Name: #{item.name}
+				li.list__value Description: #{item.desc}
+				li.list__value Health: #{item.health}
+				li.list__value Power: #{item.power}
+				li.list__value Price: #{item.price}
+			input(class="item__hidden--id" type="hidden", name="value_id", value="#{item._id}")
+			input(class="item__hidden--name" type="hidden", name="value_name", value="#{item.name}")
+			input(class="item__hidden--desc" type="hidden", name="value_desc", value="#{item.desc}")
+			input(class="item__hidden--power" type="hidden", name="value_power", value="#{item.power}")
+			input(class="item__hidden--health" type="hidden", name="value_health", value="#{item.health}")
+			input(class="item__hidden--price" type="hidden", name="value_price", value="#{item.price}")
 									

@@ -1,13 +1,16 @@
 main.main
-	div.main__container
-		div.main__list
-			div.list__section
-				ul.list__item
-					li.list__value Name: #{data.name}
-					li.list__value Description: #{data.desc}
-					li.list__value Health: #{data.health}
-					li.list__value Power: #{data.power}
-					li.list__value Price: #{data.price}
-				input(class="item__hidden--id" type="hidden", name="value_id", value="#{data._id}")
-				button.btn.btn__edit edit
-				button.btn.btn__delete delete
+	div.list__section
+		ul.list__item
+			li.list__value Name: #{data.name}
+			li.list__value Description: #{data.desc}
+			li.list__value Health: #{data.health}
+			li.list__value Power: #{data.power}
+			li.list__value Price: #{data.price}
+		input(class="item__hidden--id" type="hidden", name="value_id", value="#{data._id}")
+		input(class="item__hidden--name" type="hidden", name="value_name", value="#{data.name}")
+		input(class="item__hidden--desc" type="hidden", name="value_desc", value="#{data.desc}")
+		input(class="item__hidden--power" type="hidden", name="value_power", value="#{data.power}")
+		input(class="item__hidden--health" type="hidden", name="value_health", value="#{data.health}")
+		input(class="item__hidden--price" type="hidden", name="value_price", value="#{data.price}")
+		button.btn.btn__edit edit
+		button.btn.btn__delete delete
