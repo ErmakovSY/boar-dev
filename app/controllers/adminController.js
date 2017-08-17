@@ -75,9 +75,9 @@ exports.createCard = function (req, cb) {
 		currCell: "none",
 		currStatus: "dead"
 	};
-	console.log("controller@create: required " + req.name + ", " + req.desc + ", " + req.health + ", " + req.power + ", " + req.price);
-	console.log("controller@create: required " + typeof(req.name) + ", " + typeof(req.desc) + ", " + typeof(parseInt(req.health)) + ", "
-	 + typeof(parseInt(req.power)) + ", " + typeof(parseInt(req.price)));
+	console.log("controller@create: required "+req.name+" ("+typeof(req.name)+"), "+req.desc+" ("+typeof(req.desc)+"), "+
+		req.health+" ("+typeof(parseInt(req.health))+"), "+req.power+" ("+typeof(parseInt(req.power))+"), "+req.price+" ("+
+		typeof(parseInt(req.price))+")");
 
   	this.validateInput(card, function(err, res){
   		
@@ -117,9 +117,9 @@ exports.updateCard = function (req, cb) {
 		currStatus: "dead"
 	};
 
-	console.log("controller@update: required " + req.name + ", " + req.desc + ", " + req.health + ", " + req.power + ", " + req.price);
-	console.log("controller@update: required " + typeof(req.name) + ", " + typeof(req.desc) + ", " + typeof(parseInt(req.health)) + ", "
-	 + typeof(parseInt(req.power)) + ", " + typeof(parseInt(req.price)));
+	console.log("controller@create: required "+req.name+" ("+typeof(req.name)+"), "+req.desc+" ("+typeof(req.desc)+"), "+
+		req.health+" ("+typeof(parseInt(req.health))+"), "+req.power+" ("+typeof(parseInt(req.power))+"), "+req.price+" ("+
+		typeof(parseInt(req.price))+")");
   	
   	this.validateInput(cardNew, function(err, res){
   		
