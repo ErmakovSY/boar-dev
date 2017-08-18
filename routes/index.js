@@ -11,13 +11,13 @@ router.get('/admin', function(req, res) {
     });
 });
 
-router.post('/admin/show-card', function(req, res) {
-    adminController.getCard(req.body.id, function(e,docs){
+router.get('/admin/show-card/:id', function(req, res) {
+    adminController.getCard(req.params.id, function(e,docs){
+    	console.log("router: got, rendering _main__show-card.jade");
         res.render('./partials/_main__show-card.jade', {data: docs});
     });
 });
 
-//post
 router.post('/admin/create-card', function(req, res) {
     adminController.createCard(req.body, function(err, result){
         adminController.getAllCards(function(e, docs){
@@ -27,8 +27,7 @@ router.post('/admin/create-card', function(req, res) {
     });
 });
 
-//delete
-router.post('/admin/delete-card', function(req, res) {
+router.delete('/admin/delete-card', function(req, res) {
     adminController.deleteCard(req.body.id, function(err, result){
         adminController.getAllCards(function(e, docs){
         	console.log("router: deleted, rendering index.jade");
@@ -44,8 +43,7 @@ router.get('/admin/delete-all', function(req, res) {
     });
 });
 
-//put
-router.post('/admin/update-card', function(req, res) {
+router.put('/admin/update-card', function(req, res) {
     adminController.updateCard(req.body, function(err, result){
         adminController.getAllCards(function(e, docs){
         	console.log("router: edited, rendering index.jade");

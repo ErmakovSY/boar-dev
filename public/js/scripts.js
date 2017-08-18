@@ -3,10 +3,28 @@ $("document").ready(function() {
 	//клик по карте в списке
 	$(".list__section").click(function(event) {
 		var id = $(this).children(".item__hidden--id").val();
-		$.post("admin/show-card", {"id": id}, function(result){
-	        $(".section__right--show").empty();
-	        $(".section__right--show").html(result);
-	    });
+		// $.post("admin/show-card", {"id": id}, function(result){
+	 //        $(".section__right--show").empty();
+	 //        $(".section__right--show").html(result);
+	 //    });
+		// $.get("admin/show-card", {"id": id}, function(result){
+		//     $(".section__right--show").empty();
+		// 	$(".section__right--show").html(result);
+		// });
+		
+	    $.ajax({
+			url: 'admin/show-card/' + id,
+			type: 'GET',
+			//data: {'id': id},
+			error: function (xhr, ajaxOptions, thrownError) {
+		        alert(xhr.status + ", " + xhr.responseText);
+				alert(thrownError);
+			},
+			success: function(result) {
+	 			$('.section__right--show').empty();
+	        	$('.section__right--show').html(result);
+	 		}
+		});
 	});
 
 	//клик по кнопке EDIT в выбранной карте
@@ -49,16 +67,18 @@ $("document").ready(function() {
 
 		 	//alert(id + ", " + name + ", " + desc + ", " + power + ", " + health + ", " + price);
 
-		 	$.post("admin/update-card", {
-		 		"id": id,
-		 		"name": name,
-		 		"desc": desc,
-		 		"power": power,
-		 		"health": health,
-		 		"price": price
-		 	}, function(result){
-		         //alert("result: " + result);      
-		    });
+		    $.ajax({
+			    url: 'admin/update-card',
+			    type: 'PUT',
+			    data: {
+			    	"id": id,
+			 		"name": name,
+			 		"desc": desc,
+			 		"power": power,
+			 		"health": health,
+			 		"price": price
+				},
+			});
 		}
 		else if(action == "create") {
 
@@ -86,9 +106,15 @@ $("document").ready(function() {
 	$('body').on('click', '.btn__delete', function(event) {
 
 		var id = $('.section__right--show').children().children().children(".item__hidden--id").val();
-		$.post("admin/delete-card", {"id": id}, function(result){
-	         location.reload();//не срабатывает рендеринг, обновляю здесь    
-	    });
+
+	    $.ajax({
+			url: 'admin/delete-card',
+			type: 'DELETE',
+			data: {"id": id},
+			success: function() {
+	 			location.reload();   //не срабатывает рендеринг, обновляю здесь);
+	 		}
+		});
 	});
 
 	//клик по кнопке CREATE

@@ -5,6 +5,7 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var gracefulExit = require('express-graceful-exit');
 // Database
 var mongoClient = require('mongodb').MongoClient;
 var mongoose = require('mongoose');
@@ -34,6 +35,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(gracefulExit.middleware(app));
 
 // Make our db accessible to our router
 app.use(function(req,res,next){
@@ -52,5 +54,14 @@ app.put('/admin/update-card', index);
 app.post('/admin/create-card', function(req,res,next){
     next(index);
 });
+
+// process.on('message', function(message) {
+// 	console.log(message);
+//   if (message === 'q') {
+//     gracefulExit.gracefulExitHandler(app, server, {
+//         socketio: app.settings.socketio
+//     });
+//   }
+// });
 
 module.exports = app;

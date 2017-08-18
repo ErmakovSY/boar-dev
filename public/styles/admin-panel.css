@@ -94,13 +94,8 @@ body {
 	width: 170px;
 }
 .btn__edit--confirm {
-	width: 35%;
-	display: inline;
+	width: 70%;
 	text-transform: uppercase;
-}
-.btn__edit--clear {
-	width: 35%;
-	display: inline;
 }
 .main {
 	height: 100%;
